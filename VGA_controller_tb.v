@@ -21,7 +21,7 @@ initial begin
 end
 
 always begin
-	#10 clk = ~clk;
+	#5 clk = ~clk;
 end
 
 endmodule

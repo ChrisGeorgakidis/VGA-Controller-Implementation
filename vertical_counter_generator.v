@@ -14,25 +14,26 @@ assign int_cnt = next_int_cnt;
 assign scl_ver_cnt = next_scl_ver_cnt;
 assign ver_cnt = next_ver_cnt;
 
-always @ (posedge clk) begin
-	if (reset == 1'b1) begin
-    	VSYNC <=1'b0;
-  	end
-  	else begin
-    	if ((ver_cnt < 10'd2) || ((ver_cnt == 10'd524) && (new_line == 1'b1))) begin // possibly missing a cc
-      		VSYNC <= 1'b0;
-    	end
-   		else begin
-      		VSYNC <=1'b1;
-    	end
-  	end
-end
+// always @ (posedge clk) begin
+// 	if (reset == 1'b1) begin
+//     	VSYNC <=1'b0;
+//   	end
+//   	else begin
+//     	if ((ver_cnt < 10'd2) || ((ver_cnt == 10'd524) && (new_line == 1'b1))) begin // possibly missing a cc
+//       		VSYNC <= 1'b0;
+//     	end
+//    		else begin
+//       		VSYNC <=1'b1;
+//     	end
+//   	end
+// end
 
 always @ ( posedge clk or posedge reset ) begin
   	if (reset == 1'b1) begin
     	next_int_cnt <= 3'b000;
     	next_scl_ver_cnt <= 6'b000000;
     	next_ver_cnt <= 10'b0000000000;
+		VSYNC <=1'b0;
   	end
   	else begin
     	if (new_line == 1'b1) begin
@@ -40,20 +41,28 @@ always @ ( posedge clk or posedge reset ) begin
         		next_int_cnt <= 3'b000;
         		next_scl_ver_cnt <= 6'b000000;
         		next_ver_cnt <= 10'b0000000000;
+				VSYNC <= 1'b0;
+      		end
+			else begin
+				if (ver_cnt < 10'd2) begin
+					VSYNC <= 1'b0;
+				end
+				else begin
+					VSYNC <= 1'b1;
+				end
+        		next_ver_cnt <= ver_cnt + 10'b0000000001;
+        		if (int_cnt == 3'b100) begin
+         			next_int_cnt <= 3'b000;
+          			if (ver_cnt > 10'd35 && ver_cnt < 10'd515) begin
+            			next_scl_ver_cnt <= scl_ver_cnt + 6'b000001;
+          			end
+        		end
+        		else begin
+          			next_int_cnt <= int_cnt + 1;
+        		end
       		end
 		end
-      	else begin
-        	next_ver_cnt <= ver_cnt + 10'b0000000001;
-        	if (int_cnt == 3'b100) begin
-         		next_int_cnt <= 3'b000;
-          		if (ver_cnt > 10'd35 && ver_cnt < 10'd515) begin
-            		next_scl_ver_cnt <= scl_ver_cnt + 6'b000001;
-          		end
-        	end
-        	else begin
-          		next_int_cnt <= int_cnt + 1;
-        	end
-      	end
+      	
     end
 end
 

@@ -14,7 +14,7 @@ assign int_cnt = next_int_cnt;
 assign scl_hor_cnt = next_scl_hor_cnt;
 assign hor_cnt = next_hor_cnt;
 
-always @ (posedge clk) begin
+always @ (posedge clk or posedge reset) begin
 	if (reset == 1) begin
 		HSYNC <=1'b0;
 	end
@@ -28,7 +28,7 @@ always @ (posedge clk) begin
 	end
 end
 
-always @ (posedge clk) begin
+always @ (posedge clk or posedge reset) begin
 	if (reset == 1) begin
 		new_line <=1'b0;
 	end
