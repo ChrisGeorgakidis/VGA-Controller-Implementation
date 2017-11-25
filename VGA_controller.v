@@ -1,19 +1,25 @@
 module VGA_controller (clk, reset, VGA_RED, VGA_GREEN, VGA_BLUE, VGA_HSYNC, VGA_VSYNC);
 
 input wire clk, reset;
-output reg VGA_RED, VGA_GREEN, VGA_BLUE, VGA_HSYNC, VGA_VSYNC;
-reg red, green, blue;
+output wire VGA_RED, VGA_GREEN, VGA_BLUE;
+output wire VGA_HSYNC, VGA_VSYNC;
+
+wire red, green, blue;
 //clock_divider
 wire newClock;
 //horizontal_counter_generator
 wire [9:0]hor_cnt;
-wire [7:0]scl_hor_cnt;
+wire [6:0]scl_hor_cnt;
 wire new_line;
 //vertical_counter_generator
-wire [8:0]ver_cnt;
+wire [9:0]ver_cnt;
 wire [6:0]scl_ver_cnt;
+//VRAM
+wire [13:0]VRAM_address;
 
-clock_divider clock_divider(
+assign VRAM_address = {scl_ver_cnt, scl_hor_cnt};
+
+ClockDivider ClockDivider(
 	.clk(clk),
 	.reset(reset),
   	.newClock(newClock)
@@ -46,26 +52,17 @@ vram vram (
 	.VGA_BLUE(blue)
 );
 
-assign VRAM_address = {scl_ver_cnt, scl_hor_cnt};
-
-always @ (posedge newClock or posedge reset) begin
-	if (reset == 1) begin
-		VGA_RED <= 0;
-		VGA_GREEN <= 0;
-		VGA_BLUE <= 0;
-	end
-	else begin
-		if (((hor_cnt >= 10'd144) && (hor_cnt <= 10'd784)) && ((ver_cnt >= 9'd35) && ver_cnt <= 9'd515)) begin
-		VGA_RED <= red;
-		VGA_GREEN <= green;
-		VGA_BLUE <= blue;
-		end
-		else begin
-		VGA_RED <= 0;
-		VGA_GREEN <= 0;
-		VGA_BLUE <= 0;
-		end
-	end
-end
+RGB RGB (
+	.clk(newClock),
+	.reset(reset),
+	.hor_cnt(hor_cnt),
+	.ver_cnt(ver_cnt),
+	.red(red),
+	.green(green),
+	.blue(blue),
+	.VGA_RED(VGA_RED),
+	.VGA_GREEN(VGA_GREEN),
+	.VGA_BLUE(VGA_BLUE)
+);
 
 endmodule
