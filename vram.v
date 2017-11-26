@@ -145,7 +145,7 @@ RAMB16_S1 #(
    	.INIT_3E({128'h0000_0000_0000_0000_1111_1111_1111_1111,		//row125	- black x4 | blue x4 | green x4 | cyan x4 | red x4 | purple x4 | yellow x4 | white x4
 	    	  128'h0000_0000_0000_0000_1111_1111_1111_1111}),	//row126	- black x4 | blue x4 | green x4 | cyan x4 | red x4 | purple x4 | yellow x4 | white x4
    	.INIT_3F({128'h0000_0000_0000_0000_1111_1111_1111_1111,		//row127	- black x4 | blue x4 | green x4 | cyan x4 | red x4 | purple x4 | yellow x4 | white x4
-	    	  128'h0000_0000_0000_0000_1111_1111_1111_1111}),	//row128	- black x4 | blue x4 | green x4 | cyan x4 | red x4 | purple x4 | yellow x4 | white x4
+	    	  128'h0000_0000_0000_0000_1111_1111_1111_1111})	//row128	- black x4 | blue x4 | green x4 | cyan x4 | red x4 | purple x4 | yellow x4 | white x4
 ) RAMB16_S1_RED (
 	.DO(VGA_RED),    // 1-bit Data Output
 	.ADDR(ADDR),     // 14-bit Address Input
@@ -297,7 +297,7 @@ RAMB16_S1 #(
    	.INIT_3E({128'h0000_0000_1111_1111_0000_0000_1111_1111,		//row125	- black x4 | blue x4 | green x4 | cyan x4 | red x4 | purple x4 | yellow x4 | white x4
 	    	  128'h0000_0000_1111_1111_0000_0000_1111_1111}),	//row126	- black x4 | blue x4 | green x4 | cyan x4 | red x4 | purple x4 | yellow x4 | white x4
    	.INIT_3F({128'h0000_0000_1111_1111_0000_0000_1111_1111,		//row127	- black x4 | blue x4 | green x4 | cyan x4 | red x4 | purple x4 | yellow x4 | white x4
-	    	  128'h0000_0000_1111_1111_0000_0000_1111_1111}),	//row128	- black x4 | blue x4 | green x4 | cyan x4 | red x4 | purple x4 | yellow x4 | white x4
+	    	  128'h0000_0000_1111_1111_0000_0000_1111_1111})	//row128	- black x4 | blue x4 | green x4 | cyan x4 | red x4 | purple x4 | yellow x4 | white x4
 ) RAMB16_S1_GREEN (
 	.DO(VGA_GREEN),      // 1-bit Data Output
 	.ADDR(ADDR),         // 14-bit Address Input
@@ -449,7 +449,7 @@ RAMB16_S1 #(
    	.INIT_3E({128'h0000_1111_0000_1111_0000_1111_0000_1111,		//row125	- black x4 | blue x4 | green x4 | cyan x4 | red x4 | purple x4 | yellow x4 | white x4
 	    	  128'h0000_1111_0000_1111_0000_1111_0000_1111}),	//row126	- black x4 | blue x4 | green x4 | cyan x4 | red x4 | purple x4 | yellow x4 | white x4
    	.INIT_3F({128'h0000_1111_0000_1111_0000_1111_0000_1111,		//row127	- black x4 | blue x4 | green x4 | cyan x4 | red x4 | purple x4 | yellow x4 | white x4
-	    	  128'h0000_1111_0000_1111_0000_1111_0000_1111}),	//row128	- black x4 | blue x4 | green x4 | cyan x4 | red x4 | purple x4 | yellow x4 | white x4
+	    	  128'h0000_1111_0000_1111_0000_1111_0000_1111})	//row128	- black x4 | blue x4 | green x4 | cyan x4 | red x4 | purple x4 | yellow x4 | white x4
 ) RAMB16_S1_BLUE (
    	.DO(VGA_BLUE),       // 1-bit Data Output
    	.ADDR(ADDR),         // 14-bit Address Input
