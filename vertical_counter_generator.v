@@ -40,30 +40,29 @@ always @ ( posedge clk or posedge reset ) begin
   	end
   	else begin
     	if (new_line == 1'b1) begin
-      		if (ver_cnt == 10'd524) begin		//begin from start
+      		if (ver_cnt == 10'd520) begin		//end of frame | begin from start
         		next_scale_cnt <= 3'b000;
         		next_scl_ver_cnt <= 7'b000000;
         		next_ver_cnt <= 10'b0000000000;
 				VSYNC <= 1'b0;
       		end
 			else begin							//continue with the rest of the image
-				if (ver_cnt < 10'd1) begin
+				if (ver_cnt < 10'd1) begin		// VSYNC Pulse Width (P)
 					VSYNC <= 1'b0;
 				end
 				else begin
-					VSYNC <= 1'b1;
+					VSYNC <= 1'b1;				//Back Porch (Q)
 				end
-        		
+
 				next_ver_cnt <= ver_cnt + 10'b0000000001;
-        		if (scale_cnt == 3'b100) begin
-         			next_scale_cnt <= 3'b000;
-					if (ver_cnt >= 10'd35 && ver_cnt < 10'd515) begin
-            			next_scl_ver_cnt <= scl_ver_cnt + 7'b000001;
-          			end
-        		end
-        		else begin
-          			next_scale_cnt <= scale_cnt + 1;
-        		end
+				if (ver_cnt >= 10'd31 && ver_cnt < 10'd511) begin		//at Display - Active Video Time (R)
+					if (scale_cnt == 3'b100) begin	//multiple of 5 pixels
+						next_scale_cnt <= 3'b000;
+						next_scl_ver_cnt   <= scl_ver_cnt + 7'b0000001;
+					end else begin
+					  	next_scale_cnt <= scale_cnt + 3'b001;
+					end
+				end
       		end
 		end
       	
